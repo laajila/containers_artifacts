@@ -26,3 +26,9 @@ NB: Needs to be Production
 Invoke-RestMethod  http://localhost:8080/api/poi/healthcheck
 Invoke-RestMethod  http://localhost:8080/api/poi
 
+# Tag Images for uploading to ACR
+docker tag tripinsights/tripviewer:1.0 registryszc7583.azurecr.io/tripviewer:1.0
+docker tag tripinsights/userprofile:1.0 registryszc7583.azurecr.io/userprofile:1.0
+docker tag tripinsights/user-java:1.0 registryszc7583.azurecr.io/user-java:1.0
+docker tag tripinsights/trips:1.0 registryszc7583.azurecr.io/trips:1.0
+docker tag tripinsights/poi:1.0 registryszc7583.azurecr.io/poi:1.0
