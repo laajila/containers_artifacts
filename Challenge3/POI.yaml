@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: poi-deployment
+  namespace: default
+  labels:
+    app: poi-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: poi-deployment
+  template:
+    metadata:
+      labels:
+        app: poi-deployment
+    spec:
+      containers:
+      - name: poi-deployment
+        image: "registryszc7583.azurecr.io/poi:1.0"
+        ports:
+        - containerPort: 80
+        # env:
+        # - name: ASPNETCORE_ENVIRONMENT
+        #   value: "Development"
+        envFrom:
+          - secretRef:
+              name: sql
+        # not required, but recommended best practice
+        livenessProbe:
+          httpGet:
+            path: "api/poi/healthcheck" # hint: there is a healthcheck endpoint - read the README!
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: "api/poi/healthcheck"
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        # resource limits are also best practice - I'll let you figure that out on your own
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: poi-service
+  namespace: default
+spec:
+  type: ClusterIP #LoadBalancer
+  selector:
+    app: poi-deployment
+  ports:
+    - protocol: TCP
+      name: poi-http
+      port: 80 # port you hit
+      targetPort: 80 # port inside container
