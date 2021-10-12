@@ -32,3 +32,11 @@ docker tag tripinsights/userprofile:1.0 registryszc7583.azurecr.io/userprofile:1
 docker tag tripinsights/user-java:1.0 registryszc7583.azurecr.io/user-java:1.0\
 docker tag tripinsights/trips:1.0 registryszc7583.azurecr.io/trips:1.0\
 docker tag tripinsights/poi:1.0 registryszc7583.azurecr.io/poi:1.0
+
+## Push to ACR
+docker push registryszc7583.azurecr.io/tripviewer:1.0\
+docker push registryszc7583.azurecr.io/userprofile:1.0\
+docker push registryszc7583.azurecr.io/user-java:1.0\
+docker push registryszc7583.azurecr.io/trips:1.0\
+docker push registryszc7583.azurecr.io/poi:1.0
+
