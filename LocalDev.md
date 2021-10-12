@@ -17,4 +17,6 @@ docker run --network drivingnetwork -e SQLFQDN=sql1 -e SQLUSER=SA -e SQLPASS=Pas
 ## Build POI and run poi
 cd poi
 docker build .
-docker run -p --network drivingnetwork 
+docker run -p --network drivingnetwork
+
+docker run -d --network ah-oh-20 -p 8080:80 --name poi -e "SQL_PASSWORD=localtestpw123@" -e "SQL_SERVER=sqltestdb" -e "SQL_USER=sa" -e "ASPNETCORE_ENVIRONMENT=Local" tripinsights/poi:1.0
