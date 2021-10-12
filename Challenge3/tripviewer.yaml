@@ -1,41 +1,40 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-app-deployment
-  namespace: my-app
+  name: tripviewer
+  namespace: default
   labels:
-    app: my-app-deployment
+    app: tripviewer-deployment
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: my-app
+      app: tripviewer-deployment
   template:
     metadata:
       labels:
-        app: my-app
+        app: tripviewer-deployment
     spec:
       containers:
-      - name: my-app
-        image: "{{<acr registry name>.azurecr.io/<name of acr registry>:<tag>}}"
+      - name: tripviewer-deployment
+        image: "registryszc7583.azurecr.io/tripviewer:1.0"
         ports:
         - containerPort: 80
         env:
-        - name: ENV_VAR_NAME
-          value: "Value of environment variable"
-        envFrom:
-          - secretRef:
-            name: {{name of your secret in kubernetes}}
+        - name: USERPROFILE_API_ENPOINT
+          value: "http://userprofile.api.svc.cluster.local"
+        - name: TRIPS_API_ENDPOINT
+          value: "http://trips.api.svc.cluster.local"
         # not required, but recommended best practice
         livenessProbe:
           httpGet:
-            path: "{{url path you want to check}}" # hint: there is a healthcheck endpoint - read the README!
+            path: "/" # hint: there is a healthcheck endpoint - read the README!
             port: 80
           initialDelaySeconds: 10
           periodSeconds: 30
         readinessProbe:
           httpGet:
-            path: "{{url path you want to check}}"
+            path: "/"
             port: 80
           initialDelaySeconds: 5
           periodSeconds: 5
@@ -45,14 +44,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: my-app
-  namespace: my-app
+  name: tripviewer-deployment
+  namespace: default
 spec:
-  type: ClusterIP #LoadBalancer
+  type: LoadBalancer
   selector:
-    app: my-app
+    app: tripviewer-deployment
   ports:
     - protocol: TCP
-      name: my-app-http
+      name: tripviewer-http
       port: 80 # port you hit
       targetPort: 80 # port inside container
