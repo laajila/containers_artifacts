@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tripviewer
+  namespace: default
+  labels:
+    app: tripviewer-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tripviewer-deployment
+  template:
+    metadata:
+      labels:
+        app: tripviewer-deployment
+    spec:
+      containers:
+      - name: tripviewer-deployment
+        image: "registryszc7583.azurecr.io/tripviewer:1.0"
+        ports:
+        - containerPort: 80
+        env:
+        - name: USERPROFILE_API_ENPOINT
+          value: "http://userprofile-service.default.svc.cluster.local"
+        - name: TRIPS_API_ENDPOINT
+          value: "http://trips-service.default.svc.cluster.local"
+        # not required, but recommended best practice
+        livenessProbe:
+          httpGet:
+            path: "/" # hint: there is a healthcheck endpoint - read the README!
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: "/"
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        # resource limits are also best practice - I'll let you figure that out on your own
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tripviewer-deployment
+  namespace: default
+spec:
+  type: LoadBalancer
+  selector:
+    app: tripviewer-deployment
+  ports:
+    - protocol: TCP
+      name: tripviewer-http
+      port: 80 # port you hit
+      targetPort: 80 # port inside container
