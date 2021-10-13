@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: userprofile-deployment
-        image: "registryszc7583.azurecr.io/poi:1.0"
+        image: "registryszc7583.azurecr.io/userprofile:1.0"
         ports:
         - containerPort: 80
         env:        
