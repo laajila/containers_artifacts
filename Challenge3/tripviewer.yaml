@@ -22,9 +22,9 @@ spec:
         - containerPort: 80
         env:
         - name: USERPROFILE_API_ENPOINT
-          value: "http://userprofile.api.svc.cluster.local"
+          value: "http://userprofile-service.default.svc.cluster.local"
         - name: TRIPS_API_ENDPOINT
-          value: "http://trips.api.svc.cluster.local"
+          value: "http://trips-service.default.svc.cluster.local"
         # not required, but recommended best practice
         livenessProbe:
           httpGet:
