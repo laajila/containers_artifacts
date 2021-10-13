@@ -11,7 +11,7 @@ subjects:
 - kind: Group
   namespace: api
   name: ef394e1e-08bb-4329-a44e-b71edd83d01c
-----
+---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
