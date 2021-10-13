@@ -21,6 +21,8 @@ spec:
         ports:
         - containerPort: 80
         env:
+        - name: OPENAPI_DOCS_URI
+          value: "localhost"
         envFrom:
         - secretRef:
            name: sql
@@ -33,7 +35,7 @@ spec:
           periodSeconds: 30
         readinessProbe:
           httpGet:
-            path: "/"
+            path: "/api/trips"
             port: 80
           initialDelaySeconds: 5
           periodSeconds: 5
@@ -43,7 +45,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: trips-deployment
+  name: trips-service
   namespace: default
 spec:
   type: ClusterIP
