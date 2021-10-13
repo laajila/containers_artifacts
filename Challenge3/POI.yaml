@@ -20,12 +20,16 @@ spec:
         image: "registryszc7583.azurecr.io/poi:1.0"
         ports:
         - containerPort: 80
-        # env:
-        # - name: ASPNETCORE_ENVIRONMENT
-        #   value: "Development"
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: 'Development'
+        - name: WEB_SERVER_BASE_URI
+          value: 'http://0.0.0.0'
+        - name: WEB_PORT
+          value: '80'
         envFrom:
-          - secretRef:
-              name: sql
+        - secretRef:
+           name: sql
         # not required, but recommended best practice
         livenessProbe:
           httpGet:
