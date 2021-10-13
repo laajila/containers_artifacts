@@ -22,7 +22,7 @@ spec:
         - containerPort: 80
         env:
         - name: ASPNETCORE_ENVIRONMENT
-          value: 'Development'
+          value: 'Production'
         - name: WEB_SERVER_BASE_URI
           value: 'http://0.0.0.0'
         - name: WEB_PORT
