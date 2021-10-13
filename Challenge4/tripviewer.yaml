@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: tripviewer
-  namespace: default
+  namespace: web
   labels:
     app: tripviewer-deployment
 spec:
@@ -22,9 +22,9 @@ spec:
         - containerPort: 80
         env:
         - name: USERPROFILE_API_ENPOINT
-          value: "http://userprofile-service.default.svc.cluster.local"
+          value: "http://userprofile-service.api.svc.cluster.local"
         - name: TRIPS_API_ENDPOINT
-          value: "http://trips-service.default.svc.cluster.local"
+          value: "http://trips-service.api.svc.cluster.local"
         # not required, but recommended best practice
         livenessProbe:
           httpGet:
@@ -45,7 +45,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: tripviewer-deployment
-  namespace: default
+  namespace: web
 spec:
   type: LoadBalancer
   selector:

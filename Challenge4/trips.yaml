@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: trips
-  namespace: default
+  namespace: api
   labels:
     app: trips-deployment
 spec:
@@ -46,7 +46,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: trips-service
-  namespace: default
+  namespace: api
 spec:
   type: ClusterIP
   selector:
