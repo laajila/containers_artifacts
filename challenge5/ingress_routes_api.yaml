@@ -26,17 +26,24 @@ spec:
             name: poi-service
             port:
               number: 80
-      - path: /api/user(/|$)(.*)
+      - path: /api/(user)(.*)
         pathType: Prefix
         backend:
           service:
             name: userprofile-service
             port:
               number: 80
-      - path: /api/user-java(/|$)(.*)
+      - path: /api/(user-java)(.*)
         pathType: Prefix
         backend:
           service:
             name: user-java-service
             port:
               number: 80
+      - path: /api/(docs\/poi)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: poi-service
+            port:
+              number: 80              
