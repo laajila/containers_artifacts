@@ -54,3 +54,31 @@ spec:
             name: poi-service
             port:
               number: 80                 
+      - path: /(api)/(documentation\/user-java)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: user-java-service
+            port:
+              number: 80
+      - path: /(api)/(swagger-resources)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: user-java-service
+            port:
+              number: 80
+      - path: /(api)/(api-docs)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: user-java-service
+            port:
+              number: 80        
+      - path: /(api)/(metrics)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: user-java-service
+            port:
+              number: 80                                                           
