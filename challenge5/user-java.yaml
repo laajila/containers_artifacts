@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-java
+  namespace: api
+  labels:
+    app: user-java-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-java-deployment
+  template:
+    metadata:
+      labels:
+        app: user-java-deployment
+    spec:
+      containers:
+      - name: user-java-deployment
+        image: "registryszc7583.azurecr.io/user-java:1.0"
+        ports:
+        - containerPort: 80
+        volumeMounts:
+          - name: secrets-store-inline
+            mountPath: "/secrets"
+            readOnly: true        
+        # not required, but recommended best practice
+        livenessProbe:
+          httpGet:
+            path: "/api/user-java/healthcheck" # hint: there is a healthcheck endpoint - read the README!
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: "/api/user-java/healthcheck"
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+      volumes:
+        - name: secrets-store-inline
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: "aks-keyvault-team-2"  
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-java-service
+  namespace: api
+spec:
+  type: ClusterIP #LoadBalancer
+  selector:
+    app: user-java-deployement
+  ports:
+    - protocol: TCP
+      name: user-java-http
+      port: 80 # port you hit
+      targetPort: 80 # port inside container
