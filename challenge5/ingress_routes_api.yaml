@@ -7,33 +7,33 @@ metadata:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
     nginx.ingress.kubernetes.io/use-regex: "true"
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/rewrite-target: /api/$1$2
 spec:
   rules:
   - http:
       paths:
-      - path: /api/trips(\/|$)(.*)
+      - path: /api/(trips)(.*)
         pathType: Prefix
         backend:
           service:
             name: trips-service
             port:
               number: 80
-      - path: /api/poi(\/|$)(.*)
+      - path: /api/(trips)(.*)
         pathType: Prefix
         backend:
           service:
             name: poi-service
             port:
               number: 80
-      - path: /api/user(\/|$)(.*)
+      - path: /api/user(/|$)(.*)
         pathType: Prefix
         backend:
           service:
             name: userprofile-service
             port:
               number: 80
-      - path: /api/user-java(\/|$)(.*)
+      - path: /api/user-java(/|$)(.*)
         pathType: Prefix
         backend:
           service:
