@@ -23,9 +23,10 @@ spec:
         env:        
         - name: PORT
           value: '80'
-        envFrom:
-        - secretRef:
-           name: sql        
+        volumeMounts:
+        - name: secrets-store-inline
+          mountPath: "/secrets"
+          readOnly: true 
         livenessProbe:
           httpGet:
             path: "/api/user/healthcheck" 
