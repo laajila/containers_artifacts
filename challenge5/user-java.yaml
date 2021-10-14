@@ -54,7 +54,7 @@ metadata:
 spec:
   type: ClusterIP #LoadBalancer
   selector:
-    app: user-java-deployement
+    app: user-java-deployment
   ports:
     - protocol: TCP
       name: user-java-http
